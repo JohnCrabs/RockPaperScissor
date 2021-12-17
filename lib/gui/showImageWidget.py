@@ -74,33 +74,21 @@ class WidgetImageViewer(QGLWidget):
             h = self.imgToView.shape[0]
             original_ratio = w / h
             designer_ratio = self.width() / self.height()
-            if original_ratio >= designer_ratio:
+            if original_ratio > designer_ratio:
                 designer_height = self.width() / original_ratio
                 scale = designer_height / h
-            else:
+            elif original_ratio < designer_ratio:
                 designer_width = self.height() * original_ratio
                 scale = designer_width / w
-
-            if self.width() < self.height():
-                if original_ratio > 1.0:
-                    pos = scale * w
-                    pos = 1.0 - ((self.height() - pos) / self.height())
-                    glRasterPos2f(-1.0, -pos)
-                else:
-                    pos = scale * h
-                    pos = 1.0 - ((self.width() - pos) / self.width())
-                    glRasterPos2f(-1.0, -pos)
-            elif self.width() > self.height():
-                if original_ratio > 1.0:
-                    pos = scale * h
-                    pos = 1.0 - ((self.height() - pos) / self.height())
-                    glRasterPos2f(-pos, -1.0)
-                else:
-                    pos = scale * w
-                    pos = 1.0 - ((self.width() - pos) / self.width())
-                    glRasterPos2f(-pos, -1.0)
             else:
-                glRasterPos2f(-1.0, -1.0)
+                scale = 1
+
+            pos_w = scale * w
+            pos_w = 1.0 - ((self.width() - pos_w) / self.width())
+            glRasterPos2f(-pos_w, -1.0)
+            pos_h = scale * h
+            pos_h = 1.0 - ((self.height() - pos_h) / self.height())
+            glRasterPos2f(-pos_w, -pos_h)
 
             glPixelZoom(scale, scale)
             glDrawPixels(w, h, GL_RGBA, GL_UNSIGNED_BYTE, self.imgToView)
