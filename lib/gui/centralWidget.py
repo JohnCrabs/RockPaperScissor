@@ -208,6 +208,10 @@ class WidgetCentral(QWidget):
         self.button_ResetCapture.setEnabled(state)
         self.playerScreen.getInputFromCamera(state)
 
+        if not state:
+            self.playerScreen.clearImg()
+            self.isImageCaptured = False
+
     def action_CameraCaptureClicked(self):
         if not self.isImageCaptured:
             img = self.playerScreen.getCurrentShownImage()

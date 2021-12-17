@@ -61,6 +61,7 @@ class WidgetImageViewer(QGLWidget):
 
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glClearColor(0.0, 0.0, 0.0, 1.0)
 
         if self.isInputFromCamera:
             ret, frame = self.videoCapture.read()
@@ -93,9 +94,8 @@ class WidgetImageViewer(QGLWidget):
             glPixelZoom(scale, scale)
             glDrawPixels(w, h, GL_RGBA, GL_UNSIGNED_BYTE, self.imgToView)
             # cv2.imshow('hello', self.imgToView)
-
         else:
-            glColor3f(0.0, 0.0, 0.0)
+            glColor4f(0.0, 0.0, 0.0, 1.0)
 
     def resizeGL(self, w: int, h: int):
         glViewport(0, 0, w, h)
@@ -119,9 +119,10 @@ class WidgetImageViewer(QGLWidget):
         if state:
             self.videoCapture = cv2.VideoCapture(0)
         else:
-            self.videoCapture.release()
-            self.videoCapture = None
-            self.imgToView = None
+            if self.videoCapture is not None:
+                self.videoCapture.release()
+                self.videoCapture = None
+                self.imgToView = None
 
     def stopImageFromCameraAndKeepImage(self):
         img = self.imgToView

@@ -113,6 +113,9 @@ class WidgetPlayerWindow(QWidget):
         self.scoreValue += addScore
         self.updateScore()
 
+    def clearImg(self):
+        self.imageViewer.clearImg()
+
 # ******************************************************* #
 # ********************   EXECUTION   ******************** #
 # ******************************************************* #
