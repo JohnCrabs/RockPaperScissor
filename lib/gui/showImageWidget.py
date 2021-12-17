@@ -74,7 +74,7 @@ class WidgetImageViewer(QGLWidget):
             h = self.imgToView.shape[0]
             original_ratio = w / h
             designer_ratio = self.width() / self.height()
-            if original_ratio > designer_ratio:
+            if original_ratio >= designer_ratio:
                 designer_height = self.width() / original_ratio
                 scale = designer_height / h
             else:
@@ -82,20 +82,16 @@ class WidgetImageViewer(QGLWidget):
                 scale = designer_width / w
 
             if self.width() < self.height():
-                if original_ratio == 1.0:
-                    glRasterPos2f(-1.0, -0.5)
-                elif original_ratio > 1.0:
-                    pos = scale * h
+                if original_ratio > 1.0:
+                    pos = scale * w
                     pos = 1.0 - ((self.height() - pos) / self.height())
                     glRasterPos2f(-1.0, -pos)
                 else:
-                    pos = scale * w
+                    pos = scale * h
                     pos = 1.0 - ((self.width() - pos) / self.width())
                     glRasterPos2f(-1.0, -pos)
             elif self.width() > self.height():
-                if original_ratio == 1.0:
-                    glRasterPos2f(-0.5, -1.0)
-                elif original_ratio > 1.0:
+                if original_ratio > 1.0:
                     pos = scale * h
                     pos = 1.0 - ((self.height() - pos) / self.height())
                     glRasterPos2f(-pos, -1.0)

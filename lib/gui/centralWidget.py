@@ -4,9 +4,9 @@ import tkinter as tk
 import numpy as np
 from tensorflow import keras
 
-# from PySide2.QtCore import (
-#     Qt
-# )
+from PySide2.QtCore import (
+    Qt
+)
 
 from PySide2.QtWidgets import (
     QWidget,
@@ -15,11 +15,12 @@ from PySide2.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QCheckBox,
-    QComboBox
+    QComboBox,
+    QLabel
 )
 
 from PySide2.QtGui import (
-    QIcon,
+    QIcon
 )
 
 from lib.gui.playersWidget import WidgetPlayerWindow
@@ -132,6 +133,23 @@ class WidgetCentral(QWidget):
         self.RockPaperScissor = rps.RockPaperScissor()
         self.RockPaperScissor.setPlayers(how_many=2)
 
+        # ------------------------- #
+        # ----- Set QLineEdit ----- #
+        # ------------------------- #
+        self.label_WinnerAnnounce = QLabel('')
+        self.label_WinnerAnnounce.setStyleSheet(
+            '''
+            QLabel {
+                font-size: 12pt;
+                font-weight: bold;
+                color: rgb(255, 0, 0);
+                background-color: rgb(0, 0, 0);
+            }
+            '''
+        )
+        self.label_WinnerAnnounce.setMaximumHeight(32)
+        self.label_WinnerAnnounce.setAlignment(Qt.AlignCenter)
+
     def setWidget(self):
         self.computerScreen.setWidget()
         self.computerScreen.setPlayerName('Computer')
@@ -148,6 +166,10 @@ class WidgetCentral(QWidget):
         hbox_PlayersLayout.addWidget(self.computerScreen)
         hbox_PlayersLayout.addWidget(self.playerScreen)
 
+        vbox_PlayersLayout = QVBoxLayout()
+        vbox_PlayersLayout.addWidget(self.label_WinnerAnnounce)
+        vbox_PlayersLayout.addLayout(hbox_PlayersLayout)
+
         hbox_PlayerButtons = QHBoxLayout()
         # Add combobox with PlayerChoices
         hbox_PlayerButtons.addWidget(self.combobox_PlayersChoices)
@@ -162,7 +184,7 @@ class WidgetCentral(QWidget):
         # Add button for Ready
         hbox_PlayerButtons.addWidget(self.button_Ready)
 
-        self.vbox_main_layout.addLayout(hbox_PlayersLayout)
+        self.vbox_main_layout.addLayout(vbox_PlayersLayout)
         self.vbox_main_layout.addLayout(hbox_PlayerButtons)
 
         self.setEvents_()
@@ -236,8 +258,12 @@ class WidgetCentral(QWidget):
         if winningScore > 0:
             if winningIndex == 0:
                 self.computerScreen.addToScore(1)
+                self.label_WinnerAnnounce.setText('The winner of this round is the COMPUTER!')
             elif winningIndex == 1:
                 self.playerScreen.addToScore(1)
+                self.label_WinnerAnnounce.setText('The winner of this round is our HUMBLE PLAYER!')
+        else:
+            self.label_WinnerAnnounce.setText('There\'s no winner for this round. You DRAW!')
 
     def makePredictionFromImagePath(self, path):
         img = keras.preprocessing.image.load_img(path, target_size=(150, 150))
