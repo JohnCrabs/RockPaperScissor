@@ -1,6 +1,5 @@
 import sys
 import os
-import time
 import tkinter as tk
 import cv2 as cv2
 

@@ -7,16 +7,12 @@ from PySide2.QtCore import (
 from PySide2.QtWidgets import (
     QWidget,
     QApplication,
-    QPushButton,
     QHBoxLayout,
     QVBoxLayout,
-    QLineEdit,
-    QLabel,
-    QSpacerItem
+    QLabel
 )
 from PySide2.QtGui import (
-    QIcon,
-    QFont
+    QIcon
 )
 
 import lib.gui.showImageWidget as showImageWidget

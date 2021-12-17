@@ -10,9 +10,7 @@ from PySide2.QtWidgets import (
     QApplication,
     QWidget,
     QAction,
-    QStatusBar,
-    QHBoxLayout,
-    QVBoxLayout
+    QStatusBar
 )
 from PySide2.QtGui import (
     QIcon, QPalette
@@ -32,11 +30,7 @@ _INT_BUTTON_MIN_WIDTH = 50  # Minimum Button Width
 _INT_SPACES = 10  # Set Spaces for Menu Items
 
 # Icon Paths
-_ICON_PATH_LOGO_32x32 = _STR_PROJECT_FOLDER + '/icon/crabsMLearning_32x32.png'
-_ICON_PATH_OPEN_128x128 = _STR_PROJECT_FOLDER + '/icon/open_128x128.png'
-_ICON_PATH_SETTINGS_48x48 = _STR_PROJECT_FOLDER + '/icon/settings_48_48.png'
-_ICON_PATH_EXIT_APP_48x48 = _STR_PROJECT_FOLDER + '/icon/exit_app_48x48.png'
-_ICON_PATH_CALENDAR_48x48 = _STR_PROJECT_FOLDER + '/icon/calendar_48x48.png'
+_ICON_PATH_LOGO_512x512 = _STR_PROJECT_FOLDER + '/lib/imgs/RockPaperScissor_Logo_512x512.png'
 
 
 class MainWindowTemplate(QMainWindow):
@@ -69,7 +63,7 @@ class MainWindowTemplate(QMainWindow):
         self.mainMenu = self.menuBar()  # Set the Menu Bar
 
         # ***** ACTIONS ***** #
-        self.actionExit = QAction(QIcon(_ICON_PATH_EXIT_APP_48x48), 'Exit' + self.setSpaces(_INT_SPACES))  # Exit
+        self.actionExit = QAction('Exit' + self.setSpaces(_INT_SPACES))  # Exit
         self.actionExit.setShortcut('Ctrl+Q')  # Ctrl + Q
         self.actionExit.setToolTip('Application exit.')  # ToolTip
 
@@ -185,4 +179,4 @@ def exec_app(w=512, h=512, minW=256, minH=256, winTitle='My Window', iconPath=''
 # ****************************************************** #
 if __name__ == "__main__":
     exec_app(w=960, h=480, minW=960, minH=480,
-             winTitle='Rock - Paper - Scissor', iconPath=_ICON_PATH_LOGO_32x32)
+             winTitle='Rock - Paper - Scissor', iconPath=_ICON_PATH_LOGO_512x512)
