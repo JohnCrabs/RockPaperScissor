@@ -72,6 +72,10 @@ class MainWindowTemplate(QMainWindow):
         self.actionExit = QAction(QIcon(_ICON_PATH_EXIT_APP_48x48), 'Exit' + self.setSpaces(_INT_SPACES))  # Exit
         self.actionExit.setShortcut('Ctrl+Q')  # Ctrl + Q
         self.actionExit.setToolTip('Application exit.')  # ToolTip
+
+        self.actionNewGame = QAction('New Game' + self.setSpaces(_INT_SPACES))
+        self.actionNewGame.setShortcut('Ctrl+N')  # Ctrl + N
+        self.actionNewGame.setToolTip('Reset the score and starts a new game. WARNING: It does not ask for permission!')
         # ******************* #
 
         self.createMenuBar()  # Create all Menu/Sub-Menu/Actions
@@ -116,7 +120,6 @@ class MainWindowTemplate(QMainWindow):
         """
         # Create Menu
         self.createMenuBarFile()  # File
-        self.createMenuBarTools()  # Tools
 
     def createMenuBarFile(self):
         """
@@ -133,22 +136,8 @@ class MainWindowTemplate(QMainWindow):
         # Project Actions (New Project, Open, Save, etc)
         menuFile.addSeparator()  # Separator
         # Action Exit
+        menuFile.addAction(self.actionNewGame)
         menuFile.addAction(self.actionExit)
-
-    def createMenuBarTools(self):
-        """
-        Use this function to create the Menu File.
-        Useful Commands:
-        menuMain = self.mainMenu.addMenu('NewMenuName')
-        menuMain.addAction(self.Action)  # add action created in def __init__()
-        menuMain.addSeparator()  # add a separator line between Actions/Menus
-        menuNewMenu = menuMain.addMenu("NewMenu")  # create a new Menu inside menuMain
-        :return: Nothing
-        """
-        menuTools = self.mainMenu.addMenu('Tools')  # File
-        # Set Actions and Menus to menuTools
-        # Project Menu/Actions (Calendar, Machine Learning, )
-        menuTools.addSeparator()
 
     # ------------------- #
     # ----- Actions ----- #
@@ -164,11 +153,15 @@ class MainWindowTemplate(QMainWindow):
         # ********* #
         # Menu FILE #
         # ********* #
+        self.actionNewGame.triggered.connect(self.actionNewGame_func_)
         self.actionExit.triggered.connect(self.actionExit_func_)  # actionExit
 
     # ************ #
     # *** File *** #
     # ************ #
+    def actionNewGame_func_(self):
+        self._centralWidget.resetTheGame()
+
     def actionExit_func_(self):
         self.close()  # close the application
         QApplication.closeAllWindows()

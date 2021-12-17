@@ -51,6 +51,8 @@ _DICT_COMPUTER_CHOICES_PATHS = {
     rps.getScissors(): _STR_COMPUTER_SCISSOR_IMAGE_PATH
 }
 
+_NEW_GAME_MESSAGE = 'A New Game has been started. Good Luck!'
+
 
 class WidgetCentral(QWidget):
     def __init__(self, w=512, h=512, minW=256, minH=256, maxW=512, maxH=512,
@@ -133,10 +135,12 @@ class WidgetCentral(QWidget):
         self.RockPaperScissor = rps.RockPaperScissor()
         self.RockPaperScissor.setPlayers(how_many=2)
 
+        self.roundCounter = 0
+
         # ------------------------- #
         # ----- Set QLineEdit ----- #
         # ------------------------- #
-        self.label_WinnerAnnounce = QLabel('')
+        self.label_WinnerAnnounce = QLabel(_NEW_GAME_MESSAGE)
         self.label_WinnerAnnounce.setStyleSheet(
             '''
             QLabel {
@@ -259,15 +263,16 @@ class WidgetCentral(QWidget):
         winningIndex = results[0][2]
         winningScore = results[0][3]
 
+        self.roundCounter += 1
         if winningScore > 0:
             if winningIndex == 0:
                 self.computerScreen.addToScore(1)
-                self.label_WinnerAnnounce.setText('The winner of this round is the COMPUTER!')
+                self.label_WinnerAnnounce.setText('Round ' + str(self.roundCounter) + ': The winner of this round is the COMPUTER!')
             elif winningIndex == 1:
                 self.playerScreen.addToScore(1)
-                self.label_WinnerAnnounce.setText('The winner of this round is our HUMBLE PLAYER!')
+                self.label_WinnerAnnounce.setText('Round ' + str(self.roundCounter) + ': The winner of this round is our HUMBLE PLAYER!')
         else:
-            self.label_WinnerAnnounce.setText('There\'s no winner for this round. You DRAW!')
+            self.label_WinnerAnnounce.setText('Round ' + str(self.roundCounter) + ': There\'s no winner for this round. You DRAW!')
 
     def makePredictionFromImagePath(self, path):
         img = keras.preprocessing.image.load_img(path, target_size=(150, 150))
@@ -292,6 +297,12 @@ class WidgetCentral(QWidget):
                 if self.predictionIndex == self.predictionDict[_key_]:
                     # print(_key_)
                     return _key_
+
+    def resetTheGame(self):
+        self.computerScreen.resetTheScore()
+        self.playerScreen.resetTheScore()
+        self.label_WinnerAnnounce.setText(_NEW_GAME_MESSAGE)
+        self.roundCounter = 0
 
 
 # ******************************************************* #

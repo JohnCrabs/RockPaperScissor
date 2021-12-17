@@ -116,6 +116,10 @@ class WidgetPlayerWindow(QWidget):
     def clearImg(self):
         self.imageViewer.clearImg()
 
+    def resetTheScore(self):
+        self.scoreValue = 0
+        self.updateScore()
+
 # ******************************************************* #
 # ********************   EXECUTION   ******************** #
 # ******************************************************* #
