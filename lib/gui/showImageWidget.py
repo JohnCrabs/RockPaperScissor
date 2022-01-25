@@ -108,6 +108,7 @@ class WidgetImageViewer(QGLWidget):
     def setImg(self, imgPath):
         img = cv2.imread(imgPath)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)
+        # img = cv2.rotate(img, cv2.cv2.ROTATE_180)
         self.imgToView = img
 
     def clearImg(self):
