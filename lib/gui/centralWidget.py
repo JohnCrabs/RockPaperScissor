@@ -40,6 +40,13 @@ _INT_MAX_STRETCH = 100000  # Spacer Max Stretch
 _INT_BUTTON_MIN_WIDTH = 50  # Minimum Button Width
 
 _STR_CLASSIFIER_MODEL_PATH = '../../lib/models/rock_paper_scissor.h5'
+_MODEL_SIZE_W = 150
+_MODEL_SIZE_H = 150
+
+# _STR_CLASSIFIER_MODEL_PATH = '../../lib/models/CNN2D_rps.h5'
+# _MODEL_SIZE_W = 64
+# _MODEL_SIZE_H = 64
+
 
 _STR_COMPUTER_ROCK_IMAGE_PATH = '../../lib/imgs/computer_rock.jpg'
 _STR_COMPUTER_PAPER_IMAGE_PATH = '../../lib/imgs/computer_paper.jpg'
@@ -275,7 +282,7 @@ class WidgetCentral(QWidget):
             self.label_WinnerAnnounce.setText('Round ' + str(self.roundCounter) + ': There\'s no winner for this round. You DRAW!')
 
     def makePredictionFromImagePath(self, path):
-        img = keras.preprocessing.image.load_img(path, target_size=(150, 150))
+        img = keras.preprocessing.image.load_img(path, target_size=(_MODEL_SIZE_W, _MODEL_SIZE_H))
         x = keras.preprocessing.image.img_to_array(img)
         x = np.expand_dims(x, axis=0)
         img = np.vstack([x])
